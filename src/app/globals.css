@@ -1,15 +1,26 @@
 @import "tailwindcss";
 
+/* 🌐 Variáveis globais da marca */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --intui-primary: #2D81F7;
+  --intui-light: #E3F0FF;
+  --intui-dark: #171717;
+  --intui-bg: #FFFFFF;
+  --intui-bg-dark: #0A0A0A;
+  --intui-text-light: #EDEDED;
+
+  --radius: 0.75rem;
+  --padding: 1rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans, sans-serif);
+  --font-mono: var(--font-geist-mono, monospace);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +30,43 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 🔧 Utilitários personalizados */
+@utilities {
+  .text-intui-primary {
+    color: var(--intui-primary);
+  }
+  .bg-intui-primary {
+    background-color: var(--intui-primary);
+  }
+  .text-intui-dark {
+    color: var(--intui-dark);
+  }
+  .bg-intui-light {
+    background-color: var(--intui-light);
+  }
+  .bg-intui-bg {
+    background-color: var(--intui-bg);
+  }
+  .bg-intui-bg-dark {
+    background-color: var(--intui-bg-dark);
+  }
+  .text-intui-text-light {
+    color: var(--intui-text-light);
+  }
+  .border-intui-light {
+    border-color: var(--intui-light);
+  }
+  .rounded-intui {
+    border-radius: var(--radius);
+  }
+  .p-intui {
+    padding: var(--padding);
+  }
 }
+
+/* 🔤 Tipografia e base */
+body {
+  background-color: #ffffff;
+  color: #171717;
+}
+
