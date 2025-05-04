@@ -25,14 +25,23 @@ export default function HistoricoPage() {
   const [filtroData, setFiltroData] = useState("")
   const [filtroObjetivo, setFiltroObjetivo] = useState("")
 
-  // Carrega histórico
+  // Carrega histórico do usuário
   useEffect(() => {
     const fetchHistorico = async () => {
       try {
         const { data, error } = await supabase
           .from('estatisticas')
           .select(
-            `id, total_questoes, respondidas, acertos, erros, percentual, criado_em, lista: listas(id, nome, objetivo)`
+            `
+              id,
+              total_questoes,
+              respondidas,
+              acertos,
+              erros,
+              percentual,
+              criado_em,
+              lista: listas(id, nome, objetivo)
+            `
           )
           .order('criado_em', { ascending: false })
         if (error) throw error
@@ -58,9 +67,9 @@ export default function HistoricoPage() {
     fetchHistorico()
   }, [])
 
-  // Exclui estatística
+  // Exclui histórico
   const handleDelete = async (id: string) => {
-    if (!confirm('Tem certeza que deseja excluir este registro?')) return
+    if (!confirm('Excluir este registro permanentemente?')) return
     try {
       const { error } = await supabase
         .from('estatisticas')
@@ -76,11 +85,14 @@ export default function HistoricoPage() {
 
   const objetivos = useMemo(() => Array.from(new Set(items.map(i => i.objetivo))), [items])
 
-  const filtrado = useMemo(() => items.filter(item => {
-    if (filtroData && item.data.slice(0, 10) !== filtroData) return false
-    if (filtroObjetivo && item.objetivo !== filtroObjetivo) return false
-    return true
-  }), [items, filtroData, filtroObjetivo])
+  const filtrado = useMemo(() =>
+    items.filter(item => {
+      if (filtroData && item.data.slice(0, 10) !== filtroData) return false
+      if (filtroObjetivo && item.objetivo !== filtroObjetivo) return false
+      return true
+    }),
+    [items, filtroData, filtroObjetivo]
+  )
 
   if (loading) return <p className="text-center py-10">Carregando histórico...</p>
   if (error) return <p className="text-red-500 text-center py-10">{error}</p>
@@ -136,10 +148,7 @@ export default function HistoricoPage() {
                 <td className="py-2 px-3 text-right">{item.percentual}%</td>
                 <td className="py-2 px-3 text-right flex justify-end items-center gap-4">
                   <button
-                    onClick={() => {
-                      sessionStorage.setItem('historicoListaId', item.id)
-                      router.push('/lista-gerada')
-                    }}
+                    onClick={() => router.push(`/lista/${item.id}`)}
                     className="text-blue-600 hover:underline"
                   >Visualizar</button>
                   <button aria-label="Baixar PDF"><Download size={16} className="text-blue-600 hover:text-blue-800"/></button>
@@ -153,3 +162,4 @@ export default function HistoricoPage() {
     </div>
   )
 }
+    

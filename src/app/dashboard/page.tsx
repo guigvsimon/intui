@@ -8,7 +8,7 @@ import { Plus, Clock, Settings } from 'lucide-react'
 export default function Dashboard() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-12">
-      {/* Linha superior: Relatório + Última Lista */}
+      {/* Linha superior: Relatório + Última Lista - Alterar para histórico real*/}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <RelatorioCard totalListas={5} totalQuestoes={100} taxaAcertos={85} />
         <UltimaListaCard
